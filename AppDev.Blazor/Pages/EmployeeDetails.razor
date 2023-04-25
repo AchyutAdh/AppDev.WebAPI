@@ -1,0 +1,50 @@
+﻿@page "/employeeData"
+
+<PageTitle>Employee Details</PageTitle>
+
+@using AppDev.Blazor.Data
+@using AppDev.Blazor.Data.DTO
+@using AppDev.Blazor.Data.Services
+@inject EmployeeService EmployeeService
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (employeeDatas == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Department Name</th>
+            <th>Designation</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var employeeData in employeeDatas)
+            {
+                <tr>
+                    <td>@employeeData.DepartmentName</td>
+                    <td>@employeeData.Designation</td>
+                    <td>@employeeData.Salary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<EmployeeData>? employeeDatas;
+    protected override async Task OnInitializedAsync()
+    {
+        employeeDatas = await EmployeeService.GetEmployeeAsync();
+    }
+
+}
